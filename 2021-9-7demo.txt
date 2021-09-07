@@ -1,0 +1,43 @@
+#include<iostream>
+using namespace std;
+typedef double wages;
+typedef wages base, * p;
+class Sales_item
+{
+
+};
+int test()
+{
+
+}
+using SI = Sales_item;
+int j = 0;
+constexpr int i = 42;
+int main()
+{
+	int a = 1;
+	int b = 2;
+	auto n = a + b;
+	const auto l = a;
+	auto& cap = b;
+	const auto& h = 42;
+	int* p1 = &a;
+	int* p2 = &b;
+	p1 = p2;
+	*p2 = a;
+	const int cnt = 0;
+	const int& bug = cnt;//const类型变量的别名的命名方式
+	const int& hug = 42;//特例：const类型常量引用可以绑定到常量甚至是表达式
+	constexpr int* np = nullptr;
+	constexpr const int* p = &i;
+	constexpr int *p1 = &j;
+	decltype(test()) k;
+	int s = 0;
+	//相同
+	auto s1 = s;
+	decltype(s1) s2 = s;
+	int& s3 = s;
+	auto s4 = s3;
+	decltype(s3) s5 = s3;
+	return 0;
+}
