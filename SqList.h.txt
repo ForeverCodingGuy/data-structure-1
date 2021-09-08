@@ -1,0 +1,27 @@
+#ifndef _SQLIST_H_
+#define _SQLIST_H_
+#include<iostream>
+#define MAX_SIZE 100
+using namespace std;
+template <class DataType>
+class SqList
+{
+public:
+	DataType* elem;
+	int length;
+	SqList() { length = 0; }//无参构造初始化
+	SqList(DataType* a, int n); //有参构造初始化
+	bool Isempty();//判断线性表是否为空
+	void ListInsert(DataType dt,int i);//插入新数据元素
+	void DeleteElem(int k);//删除指定位置数据元素
+	int ListLength();//返回表长
+	int LocateElem(DataType obj);//查找某个数据元素的位置
+	DataType Get(int cnt);//查看某个位置的数据元素
+	void ClearList();//清空线性表
+	~SqList();//析构销毁线性表
+};
+int main()
+{
+
+}
+#endif

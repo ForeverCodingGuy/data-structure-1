@@ -1,0 +1,131 @@
+#include"SqList.h"
+//有参构造
+template <class DataType>
+SqList<DataType>::SqList(DataType* a, int n)
+{
+	if (n > MAX_SIZE)
+	{
+		throw"overflow";
+	}
+	elem = new DataType(n);
+	for (int i = 0; i < n; i++)
+	{
+		elem[i] = a[i];
+	}
+	length = n;
+}
+
+
+//判断线性表是否为空
+template <class DataType>
+bool SqList<DataType>::Isempty()
+{
+	if (length == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+template <class DataType>
+void SqList<DataType>::ListInsert(DataType dt,int i)
+{
+	if (i>=MAX_SIZE)
+	{
+		throw"overflow";
+	}
+	if (i<1 || i>MAX_SIZE)
+	{
+		throw"wrong location";
+	}
+	for (int j=length-1;j>=i;j--)
+	{
+		elem[j] = elem[j - 1];
+	}
+	elem[i - 1] = dt;
+
+}
+
+//删除指定元素
+template <class DataType>
+void SqList<DataType>::DeleteElem(int k)
+{
+	if (k<1 || k>MAX_SIZE)
+	{
+		throw"wrong location";
+	}
+	if (length == 0)
+	{
+		throw"underflow";
+	}
+	for (int i = k;i<length;i++)
+	{
+		elem[i-1] = elem[i];
+	}
+	length--;
+}
+
+
+//返回表长
+template <class DataType>
+int SqList<DataType>::ListLength()
+{
+	return length;
+}
+
+//查找某个数据元素的位置
+template <class DataType>
+int SqList<DataType>::LocateElem(DataType obj)
+{
+	for (int i = 0; i < length; i++)
+	{
+		if (elem[i] == obj)
+		{
+			return (i+1);
+		}
+	}
+	throw"don't find it";
+}
+
+//查看某个位置的数据元素
+template <class DataType>
+DataType SqList<DataType>::Get(int cnt)
+{
+	if (cnt<1 || cnt>length)
+	{
+		throw"wrong location";
+	}
+	else
+	{
+		return elem[cnt - 1];
+	}
+
+}
+
+//清空线性表
+template <class DataType>
+void SqList<DataType>::ClearList()
+{
+	if (length == 0)
+	{
+		return;
+	}
+	else
+	{
+		length = 0;
+	}
+}
+
+//析构销毁线性表
+template <class DataType>
+SqList<DataType>::~SqList()
+{
+	if (elem != nullptr)
+	{
+		delete elem;
+		elem = nullptr;
+	}
+}
+
+
+
