@@ -1,0 +1,67 @@
+#ifndef _LINKLIST_H_
+#define _LINKLIST_H_
+#include<iostream>
+using namespace std;
+template <class T>
+class LinkNode//结点类型
+{
+	friend class LinkList<T>;
+private:
+	T data;//数据域
+	LinkNode<T>* next;//指针域
+public:
+	LinkNode()//结点默认构造初始化
+	{
+		next = nullptr;
+	}
+	explict LinkNode(T dat)//结点有参构造初始化
+	{
+		data = dat;
+		next = nullptr;
+	}
+	LinkNode<T> operator=(const LinkNode<T>* p)//重载运算符便于直接赋值，切记返回类型为LinkNode<T>,可以回想一下a=b=c,如果不返回该值，无法连续赋值
+	{
+		this->data = p->data;
+		this->next = p->next;
+		return *this;
+	}
+};
+
+
+template<class T>
+class LinkList//链表类型
+{
+private:
+	LinkNode<T>* head;
+public:
+	LinkList();//链表默认初始化构造
+	bool isempty();//判断单链表是否为空
+	void print();//打印所有结点数据域
+	void push_front(T cnt);//前插数据元素
+	void push_back(T cnt);//后插数据元素
+	bool push_prev(T cmp, T cnp);//指定插入在某数据元素之前
+	LinkNode<T>* search_prev(T cmp);//查找某数据的前趋结点地址
+	bool push_next(T cmp, T cnp);//指定插入在某数据元素之后
+	LinkNode<T>* search(T cmp);//查找某数据元素地址
+	LinkNode<T>* search_pos(int pos);//按位查找
+	void pop_first();//删除首元
+	void pop_back();//删除表尾
+	bool pop_x(T x);//按数据域删除
+	unsigned int length();//返回链表长度
+	bool pop_sequ(T pos);//按结点位置删除
+	void modify_front(T cnt);//修改表头数据
+	LinkNode<T>* search_back();//查找表尾地址
+	void modify_back(T cnt);//修改表尾数据
+	bool modify_pos(int pos, T cnt);//修改pos位数据元素的数据域
+	bool modify_x(T x);//修改数据域为x的结点
+	LinkNode<T> search_data_front();//获取表头数据域
+	LinkNode<T> search_data_back();//获取表尾数据域
+	LinkNode<T> search_data(int pos);//获取pos位结点的数据域
+	void delete_list();//主动销毁链表
+	~LinkList();//析构函数销毁单链表
+};
+int main()
+{
+
+}
+#endif

@@ -1,0 +1,331 @@
+#include"LinkList.h"
+
+template <class T>
+LinkList<T>::LinkList()
+{
+	head = new LinkNode<T>();
+}
+
+template <class T>
+bool LinkList<T>::isempty()
+{
+	if (length() == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+template <class T>
+void LinkList<T>::push_front(T cnt)//前插元素实现
+{
+	//先创建一个结点，将数据放入结点的数据域中
+	LinkNode<T>* tem = new LinkNode<T>(cnt);
+	//将该结点与原来首元结点相连
+	tem->next = head->next;
+	//再将头指针与该结点相连
+	head->next = tem;
+}
+
+template<class T>
+void LinkList<T>::push_back(T cnt)//后插元素实现
+{
+	//先创建一个结点，将数据放入结点的数据域中
+	LinkNode<T>* tem = new LinkNode<T>(cnt);
+	tem->next = nullptr;
+	//先找到插入前最后一个结点（根据next是否为nullptr），从head开始
+	LinkNode<T>* p = head;
+	while (p)
+	{
+		if (p->next == nullptr)
+		{
+			p->next = tem;
+			break;
+		}
+		p = p->next;
+	}
+}
+
+template<class T> 
+LinkNode<T>* LinkList<T>::search_prev(T cmp)//查找某数据的前趋结点地址
+{
+	LinkNode<T>* tem = head;
+	while (tem->next!=nullptr)
+	{
+		if (tem->next->data == cmp)
+		{
+			return tem;
+		}
+		tem = tem->next;
+	}
+	return nullprt;//也可能不存在
+}
+
+template<class T>//插在某数据之前
+bool LinkList<T>::push_prev (T cmp, T cnp)
+{
+	LinkList<T>* p = search_prev(cmp);	
+	if (p)
+	{
+		LinkNode<T>* tem = new LinkNode<T>(cnp);
+		tem->next = p->next;
+		p->next = tem;
+		return true;
+	}
+	return false;
+}
+
+template<class T>//查找某元素地址
+LinkNode<T>* LinkList<T>::search(T cmp)
+{
+	LinkNode<T>* p = head;
+	while (p)
+	{
+		if (p->data == cmp)
+		{
+			return p;
+		}
+		p = p->next;
+	}
+	return nullptr;
+}
+
+template<class T>
+bool LinkList<T>::push_next(T cmp, T cnp)
+{
+	LinkNode<T>* tem = search(cmp);
+	if (tem)
+	{
+		LinkNode<T>* p = new LinkNode<T>(cnp);
+		p->next = tem->next;
+		tem->next = p;
+		return ture;
+	}
+	return false;
+}
+
+template<class T>//删除首元
+void LinkList<T>::pop_first()
+{
+	if (head->next!=nullptr)
+	{
+		LinkNode<T>* p = head->next;
+		head->next = p->next;
+		delete p;
+	}
+}
+
+template<class T>//删除表尾
+void LinkList<T>::pop_back()
+{
+	LinkNode<T>* p = head;
+	while (p)
+	{
+		if (p->next->next== nullptr)
+		{
+			delete p->next->next;
+			p->next = nullptr;
+		}
+	}
+}
+
+template<class T>//按数据域删除
+bool LinkList<T>::pop_x(T x)
+{
+	LinkNode<T>* p = search_prev(x);
+	if (p)
+	{
+		p->next = p->next->next;
+		delete p->next;
+		return true;
+	}
+	return false;
+}
+
+template<class T>//返回链表长度
+unsigned int LinkList<T>::length()
+{
+	unsigned len = 0;
+	LinkNode<T>* p = head;
+	while (p->next)
+	{
+		len++;
+		p = p->next;
+	}
+	return len;
+}
+
+
+template<class T>//按结点位置删除
+bool LinkList<T>::pop_sequ(T pos)
+{
+	LinkNode<T>* p = head;
+	if (pos > 0 && pos <= length())
+	{
+		for (unsigned int i = 1; i <= length(); i++)
+		{
+			if (i == pos)
+			{
+				LinkNode<T>* tem = p->next;
+				p->next = p->next->next;
+				delete tem;
+				return true;
+			}
+			p = p->next;
+		}
+	}
+	return false;
+}
+
+template<class T>//修改表头数据
+void LinkList<T>::modify_front(T cnt)
+{
+	if (head->next != nullptr)
+	{
+		head->next->data = cnt;
+	}
+}
+
+template<class T>//查找表尾元素
+LinkNode<T>* LinkList<T>::search_back()
+{
+	LinkNode<T>* p = head;
+	while (p)
+	{
+		if (p->next = nullptr)
+		{
+			return p;
+		}
+		p = p->next;
+	}
+	return nullptr;
+}
+
+
+
+template<class T>//修改表尾数据
+void LinkList<T>::modify_back(T cnt)
+{
+	LinkNode<T>* p = search_back();
+	if (p)
+	{
+		p->data = cnt;
+	}
+}
+
+template<class T>//查找某位置元素地址
+LinkNode<T>* LinkList<T>::search_pos(int pos)
+{
+	if (pos > 0 && pos <= length())
+	{
+		int i = 1;
+		LinkNode<T>* p = head;
+		while (p->next)
+		{
+			if (i == pos)
+			{
+				return p->next;
+			}
+			p = p->next;
+		}
+	}
+	return nullptr;
+}
+
+
+template<class T>//修改pos位数据元素
+bool LinkList<T>::modify_pos(int pos, T cnt)
+{
+	LinkNode<T>* p = search_pos(pos);
+	if (p)
+	{
+		p->data = cnt;
+		return true;
+	}
+	return false;
+}
+
+template<class T>//修改数据域为x的结点
+bool LinkList<T>::modify_x(T x)
+{
+	LinkNode<T>* p = search(x);
+	if (p)
+	{
+		p->data = x;
+		return true;
+	}
+	return false;
+}
+
+template<class T>//打印所有结点数据域
+void LinkList<T>::print()
+{
+	LinkNode<T>* p = head;
+	while (p->next)
+	{
+		cout << p->next->data << " ";
+	}
+	return;
+}
+
+template<class T>//获取表头数据域
+LinkNode<T> LinkList<T>::search_data_front()
+{
+	if (head)
+	{
+		LinkNode<T>* p = head->next;
+		return p->data;
+	}
+	throw"list is empty"
+}
+
+template<class T>//获取表尾数据域
+LinkNode<T> LinkList<T>::search_data_back()
+{
+	LinkNode<T>* p = search_back();
+	if (p)
+	{
+		return p->data;
+	}
+	throw"list is empty";
+}
+
+template<class T>//获取pos位的数据域
+LinkNode<T> LinkList<T>::search_data(int pos)
+{
+	LinkNode<T>* p = search_pos(pos);
+	if (p)
+	{
+		return p->data;
+	}
+	throw"list is empty";
+}
+
+template<class T>//销毁单链表
+void LinkList<T>::delete_list()
+{
+	while (head->next!=nullptr)
+	{
+		LinkNode<T>* tem = head->next;
+		head->next = tem->next;
+		delete tem;
+	}
+}
+
+template<class T>//销毁单链表
+LinkList<T>::~LinkList()
+{
+	delete_list();
+}
+
+
+
+
+
+
+
+
+
+
+
+
