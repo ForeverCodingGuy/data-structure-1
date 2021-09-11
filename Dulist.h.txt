@@ -1,0 +1,68 @@
+#ifndef _DULIST_H_
+#define _DULIST_H_
+#include<iostream>
+using namespace std;
+template<class T>
+class LinkNode
+{
+	friend class Dulist<T>;
+private:
+	LinkNode<T>* prior;
+	LinkNode<T>* next;
+	T data;
+public:
+	LinkNode<T>()
+	{
+		next = nullptr;
+		prior = nullptr;
+	}
+	explict LinkNode<T>(T p)
+	{
+		data = p;
+		next = nullptr;
+		prior = nullptr;
+	}
+	LinkNode<T>& operator=(LinkNode<T> p)
+	{
+		data = p->data;
+		next = p->next;
+		prior = p->prior;
+	}
+
+};
+
+template<class T>
+class Dulist
+{
+private:
+	LinkNode<T>* head;
+public:
+	Dulist();//初始化
+	int length();//求表长
+	bool isempty();//判断链表是否为空
+	LinkNode<T>* search_pos(int pos);//按位查找
+	LinkNode<T>* search_x(T x);//按数据域查找
+	LinkNode<T>* search_back();//查找表尾地址
+	void push_front(T p);//头插元素
+	void push_back(T p);//尾插元素
+	void push_front_x(T p,T x);//指定元素前插
+	void push_back_x(T p, T x);//指定元素后插
+	void pop_back();//尾删
+	void pop_front();//头删
+	void push_pos(int pos);//按位删除
+	void push_x(T x);//按数据域删除
+	LinkNode<T> get_front();//获取首元数据域
+	LinkNode<T> get_back();//获取表尾数据域
+	LinkNode<T> get_pos(int pos);//按位获取数据域
+	void modify_back(T p);//修改表尾数据域
+	void modify_front(T p);//修改表头数据域
+	void modify_pos(T p,int pos);//修改指定数据域
+	void print();//打印双循环链表
+	void delete_list();//销毁链表
+	~Dulist();//析构销毁链表
+};
+#endif
+int main()
+{
+
+}

@@ -1,0 +1,279 @@
+#include"dulist.h"
+template<class T>//初始化
+Dulist<T>::Dulist()
+{
+	head = new LinkNode<T>();
+	head->prior = head;
+	head->next = head;
+}
+
+template<class T>//返回表长
+int Dulist<T>::length()
+{
+	LinkNode<T>* p = head;
+	int len = 0;
+	while (p->next != head)
+	{
+		len++;
+	}
+	return len;
+}
+
+template<class T>//判断链表是否为空
+bool Dulist<T>::isempty()
+{
+	if (length() == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+template<class T>//按位查找
+LinkNode<T>* Dulist<T>::search_pos(int pos)
+{
+	if (pos > 0 && pos <= length())
+	{
+		LinkNode<T>* P = head;
+		int i = 0;
+		while (p->next != head)
+		{
+			i++;
+			if (i == pos)
+			{
+				return p;
+			}
+			p = p->next;
+		}
+	}
+	return nullptr;
+}
+
+template<class T>//按数据域查找
+LinkNode<T>* Dulist<T>::search_x(T x)
+{
+	LinkNode<T>* p = head->next;
+	for (int i = 1; i <= length(); i++)
+	{
+		if (p->data == x)
+		{
+			return p;
+		}
+		p = p->next;
+	}
+	return nullptr;
+}
+
+
+template<class T>//查找表尾地址
+LinkNode<T>* Dulist<T>::search_back()
+{
+	LinkNode<T>* p = head;
+	while (p->next != head)
+	{
+		p = p->next;
+	}
+	
+	if (p != head)
+	{
+		return p;
+	}
+	return nullptr;
+}
+
+template<class T>//头插
+void Dulist<T>::push_front(T p)
+{
+	LinkNode<T>* tem = new LinkNode<T>(p);
+	tem->data = p;
+	tem->next = head->next;
+	tem->prior = head;
+	head->next->prior = tem;
+	head->next = tem;
+	head->prior = search_back();
+}
+
+template<class T>//尾插
+void Dulist<T>::push_back(T p)
+{
+	LinkNode<T>* tem = search_back();
+	LinkNode<T>* last;
+	last->data = p;
+	last->prior = tem;
+	tem->next = last;
+	last->next = head;
+	head->prior = last;
+}
+
+template<class T>//指定元素前插
+void Dulist<T>::push_front_x(T p,T x)
+{
+	LinkNode<T>* tem = search_x(x);
+	LinkNode<T>* cnt;
+	cnt->data = p;
+	cnt->next = tem;
+	cnt->prior = tem->prior;
+	tem->prior->next = cnt;
+	tem->prior = cnt;
+
+}
+
+template<class T>//指定元素后插
+void Dulist<T>::push_back_x(T p, T x)
+{
+	LinkNode<T>* tem = search_x(x);
+	LinkNode<T>* cnt;
+	cnt->data = p;
+	cnt->prior = tem;
+	cnt->next = tem->next;
+	tem->next->prior = cnt;
+	tem->next = cnt;
+	head->prior = search_back();
+}
+
+template<class T>//尾删
+void Dulist<T>::pop_back()
+{
+	LinkNode<T>* p = search_back();
+	if (p != nullptr)
+	{
+		p->prior->next = head;
+		head->prior = p->prior;
+		delete p;
+	}
+}
+
+template<class T>//头删
+void Dulist<T>::pop_front()
+{
+	if (head->next != head)
+	{
+		head->prior = search_back();
+		head->next = head->next->next;
+		delete head->next->prior;
+		head->next->prior = head;
+	}
+	throw"list is empty";
+}
+
+template<class T>//按位删除
+void Dulist<T>::push_pos(int pos)
+{
+	LinkNode<T>* p = search_pos(pos);
+	if (p)
+	{
+		p->prior->next = head;
+		head->prior = p->prior;
+		delete p;
+	}
+	throw"don't exit";
+}
+
+template<class T>//按数据域删除
+void Dulist<T>::push_x(T x)
+{
+	LinkNode<T>* p = search_x(x);
+	if (p)
+	{
+		p->prior->next = p->next;
+		p->next->prior = p->prior;
+		delete p;
+		head->prior = search_back();
+	}
+}
+
+template<class T>//获取首元数据域
+LinkNode<T> Dulist<T>::get_front()
+{
+	LinkNode<T>* p = head->next;
+	if (p != head)
+	{
+		return p->data;
+	}
+	throw"list is empty";
+}
+
+template<class T>//获取表尾数据域
+LinkNode<T> Dulist<T>::get_back()
+{
+	LinkNode<T>* p = search_back();
+	if (p)
+	{
+		return p->data;
+	}
+	throw"list is empty";
+}
+
+template<class T>//按位获取数据域
+LinkNode<T> Dulist<T>::get_pos(int pos)
+{
+	LinkNode<T>* p = search_pos(pos);
+	if (p)
+	{
+		return p->data;
+	}
+	throw"don't exist";
+}
+
+template<class T>//修改表尾数据域
+void Dulist<T>::modify_back(T p)
+{
+	LinkNode<T>* tem = search_back();
+	if (tem)
+	{
+		tem->data = p;
+	}
+	throw"list is empty";
+}
+
+template<class T>//修改表头数据域
+void Dulist<T>::modify_front(T p)
+{
+	LinkNode<T>* tem = head->next;
+	if (tem != head)
+	{
+		tem->data = p;
+	}
+	throw"list is empty";
+}
+
+template<class T>//修改指定数据域
+void Dulist<T>::modify_pos(T p, int pos)
+{
+	LinkNode<T>* tem = search_pos(pos);
+	if (tem)
+	{
+		tem->data = p;
+	}
+	throw"don't exist";
+}
+
+template<class T>//打印链表
+void Dulist<T>::print()
+{
+	LinkNode<T>* p = head->next;
+	while (p != head)
+	{
+		cout << p->data << "  ";
+		p = p->next;
+	}
+}
+
+template<class T>//销毁链表
+void Dulist<T>::delete_list()
+{
+	LinkNode<T>* p = head->next;
+	while (p != head)
+	{
+		LinkNode<T>* tem = p->next;
+		delete p;
+		p = tem;
+	}
+}
+
+template<class T>//析构销毁链表
+Dulist<T>::~Dulist()
+{
+	delete_list();
+}
+
