@@ -1,0 +1,28 @@
+#ifndef _SQSTACK_H_
+#define _SQSTACK_H_
+#define MAXSIZE 100
+#include<iostream>
+using namespace std;
+template<class T>
+class SqStack
+{
+private:
+	T* top;
+	T* base;
+	int stacksize;
+public:
+	SqStack();//初始化顺序栈
+	~SqStack();//析构销毁顺序栈
+	bool isempty();//判断栈是否为空
+	void push(T x);//压栈
+	void pop();//弹栈
+	int length();//返回顺序栈长度
+	T get_top();//取栈顶元素
+	void clear();//清空顺序栈
+};
+
+int main()
+{
+
+}
+#e

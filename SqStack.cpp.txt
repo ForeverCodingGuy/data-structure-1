@@ -1,0 +1,80 @@
+#include"SqStack.h"
+template<class T>//初始化顺序栈
+SqStack<T>::SqStack()
+{
+	top = base = new T[MAXSIZE];
+	if (!top)
+	{
+		exit(OVERFLOW);
+	}
+	stacksize = MAXSIZE;
+}
+
+template<class T>//判断顺序栈是否为空
+bool SqStack<T>::isempty()
+{
+	if (top == base)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+template<class T>//求表长
+int SqStack<T>::length()
+{
+	return top - base;
+}
+
+template<class T>//清空顺序栈
+void SqStack<T>::clear()
+{
+	if (base)
+	{
+		top = base;
+	}
+}
+
+template<class T>//压栈
+void SqStack<T>::push(T x)
+{
+	if (top->base == stacksize)
+	{
+		cout << "OVERFLOW" << endl;
+	}
+	*top++ = x;
+}
+
+template<class T>//弹栈
+void SqStack<T>::pop()
+{
+	if (isempty())
+	{
+		cout << "UNDERFLOW" << endl;
+	}
+	top--;
+}
+
+template<class T>//获取栈顶元素
+T SqStack<T>::get_top()
+{
+	if (isempty())
+	{
+		cout << "UNDERFLOW" << endl;
+	}
+	return *--top;
+}
+
+template<class T>//析构销毁线性表
+SqStack<T>::~SqStack()
+{
+	if (base)
+	{
+		delete base;
+		base = top = nullptr;
+		stacksize = 0;
+	}
+}
