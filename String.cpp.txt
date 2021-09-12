@@ -1,0 +1,43 @@
+#include"string.h"
+//普通构造
+String:: String(const char* str)
+{
+	if (str == nullptr)
+	{
+		data = new char[1];
+		*data = '\0';
+	}
+	else
+	{
+		int len = strlen(str);
+		data = new char[len + 1];
+		strcpy(data, str);
+	}
+}
+//拷贝构造
+String::String(const String& s)
+{
+	int len = strlen(s.data);
+	data = new char[len + 1];
+	strcpy(data, s.data);
+}
+
+//赋值
+String  String::operator=(const String& s)
+{
+	if (this == &s)
+	{
+		return *this;
+	}
+	delete[] data;
+	int len = strlen(s.data);
+	data = new char[len + 1];
+	strcpy(data, s.data);
+	return *this;
+}
+
+//析构销毁
+String::~String()
+{
+	delete[] data;
+}
