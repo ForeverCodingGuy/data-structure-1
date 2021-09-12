@@ -1,0 +1,101 @@
+#include"LinkQueue.h"
+#include"LinkNode.h"
+template<class T>//初始化链队
+LinkQueue<T>::LinkQueue()
+{
+	front = rear = new LinkNode<T>();
+	if (front)
+	{
+		front->next = nullptr;
+		len = 0;
+    }
+	else
+	{
+		throw"OVERFLOW";
+	}
+}
+
+template<class T>//判断链队是否为空
+bool LinkQueue<T>::isempty()
+{
+	if (front == rear)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+template<class T>//尾插
+void LinkQueue<T>::push_back(T x)
+{
+	LinkNode<T>* p = new LinkNode<T>(x);
+	if (!p)
+	{
+		throw"OVERFLOW";
+	}
+	else
+	{
+		rear->next = p;
+		rear = p;
+		p->next = nullptr;
+		len++;
+	}
+}
+
+template<class T>//头删
+void LinkQueue<T>::pop_front()
+{
+	if (isempty())
+	{
+		throw"UNDEFFLOW";
+	}
+	else
+	{
+		len--;
+		if (front->next == rear)
+		{
+			front->next = front->next->next;
+			delete front->next;
+			rear = front;
+		}
+		else
+		{
+			LinkNode<T>* tem = front->next;
+			front->next = tem->next;
+			delete tem;
+		}
+	}
+}
+
+template<class T>//求队长
+int LinkQueue<T>::length()
+{
+	return len;
+}
+
+template<class T>//获取队头元素
+LinkNode<T> LinkQueue<T>::get_front()
+{
+	if (isempty())
+	{
+		throw"EMPTY";
+	}
+	else
+	{
+		return front->next->data;
+	}
+}
+
+template<class T>//析构销毁
+LinkQueue<T>::~LinkQueue()
+{
+	while (front)
+	{
+		LinkNode<T>* p = front->next;
+		delete front;
+		front = p;
+	}
+}

@@ -1,0 +1,29 @@
+#ifndef _LINKNODE_H_
+#define _LINKNODE_H_
+#include<iostream>
+using namespace std;
+template<class T>
+class LinkQueue;
+template<class T>
+class LinkNode
+{
+	friend class LinkQueue<T>;
+private:
+	LinkNode<T>* next;
+	T* data;
+public:
+	LinkNode()
+	{
+		next = nullptr;
+	}
+	void operator=(LinkNode<T> p)
+	{
+		data = p->data;
+		next = p->next;
+	}
+};
+int main()
+{
+
+}
+#endi

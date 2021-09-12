@@ -1,0 +1,20 @@
+#ifndef _LINKQUEUE_H_
+#define _LINKQUEUE_H_
+#include"LinkNode.h"
+template<class T>
+class LinkQueue
+{
+private:
+	LinkNode<T>* front;
+	LinkNode<T>* rear;
+	int len;
+public:
+	LinkQueue();//初始化链队
+	bool isempty();//判断链队是否为空
+	void push_back(T x);//尾插
+	void pop_front();//头删
+	int length();//求链队长
+	LinkNode<T> get_front();//获取队头元素
+	~LinkQueue();//析构销毁链队
+};
+#endi
