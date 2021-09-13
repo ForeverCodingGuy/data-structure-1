@@ -1,0 +1,60 @@
+#include<iostream>
+using namespace std;
+//实现next数组
+int* get_next(const char* p)
+{
+	int len = strlen(p);
+	int* next = new int[len];
+	next[0] = -1;
+	int j = 0;
+	int k = -1;
+	while (j < len)
+	{
+		if (k == -1 || p[j] == p[k])
+		{
+			if (p[++j] == p[++k])
+			{
+				next[j] = next[k];
+			}
+			else
+			{
+				next[j] = k;
+			}
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
+	return next;
+}
+//实现KMP
+int KMP(const char*t,const char* p)
+{
+	int len1 = strlen(t);
+	int len2 = strlen(p);
+	int i = 0;
+	int j = 0;
+	int* next = get_next(p);
+	while (i < len1 && j < len2)
+	{
+		if (j == -1 || t[i] == p[j])
+		{
+			i++;
+			j++;
+		}
+		else
+		{
+			j = next[j];
+		}
+	}
+	if (j == len2)
+	{
+		return i - j + 1;
+	}
+	return -1;
+}
+int main()
+{
+	
+}
