@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+    int data;
+    struct node *next;
+};
+int main(void)
+{
+    int n, m;
+    int i;
+    int answer[100];
+    int count = 0;
+    struct node *head, *tail, *p, *q;
+    
+    head = (struct node *)malloc(sizeof(struct node));
+    head->next = NULL;
+    
+    while (1) {
+        scanf("%d %d", &n, &m);
+        if (n == 0 || m == 0) {
+            free(head);
+            break;
+        }
+        else {
+            //尾插法，生成循环链表
+            tail = head;
+            for (i = 0; i < n; i++) {
+                p = (struct node *)malloc(sizeof(struct node));
+                p->data = i + 1;
+                tail->next = p;
+                p->next = head->next;
+                tail = p;
+            }
+            p = head->next;     //后结点
+            q = tail;           //前结点
+            i = 1;
+            while (p != q) {
+                if (i == m) {
+                    q->next = p->next;
+                    free(p);
+                    p = q->next;
+                    i = 1;
+                } else {
+                    q = p;
+                    p = p->next;
+                    i++;
+                }
+            }
+            answer[count] = p->data;
+            count++;
+            free(p);
+            head->next = NULL;
+        }
+    }
+    
+    for (i = 0; i < count; i++) {
+        printf("%d\n", answer[i]);
+    }
+    
+    return 0;
+}
