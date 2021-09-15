@@ -1,0 +1,166 @@
+#include"多项式.h"
+//无参构造
+LinkList::LinkList()
+{
+    head=new LinkNode(0,0);
+    if(head)
+    {
+        head->next=nullptr;
+        present=head;
+        p=head;
+    }
+}
+
+//插入下一项的系数与指数
+void LinkList::insert(int coe_,int index_)
+{
+    if(coe_==0)
+    {
+        return ;
+    }
+    else
+    {
+        present->next=new LinkNode(coe_,index_);
+        present=present->next;
+        present->next=nullptr;
+    }
+    
+}
+
+//打印多项式
+void LinkList::print()
+{
+    while(p->next)
+    {
+        p=p->next;
+        if(p==head->next)
+        {
+            if(p->index==0)
+            {
+                cout<<p->coe<<" ";
+            }
+            else
+            {
+                cout<<p->coe<<"x^"<<p->index<<" ";
+            }
+        }
+        else
+        {
+            if(p->index==0)
+            {
+                if(p->coe<0)
+                {
+                    cout<<p->coe<<" ";
+                }
+                else
+                {
+                    cout<<"+"<<p->coe<<" ";
+                }
+            }
+            else
+            {
+                if(p->index<0)
+                {
+                    cout<<p->coe<<"x^"<<p->index<<" ";
+                }
+                else
+                {
+                    cout<<"+"<<p->coe<<"x^"<<p->index<<" ";
+                }
+            }
+        }
+    }
+    cout<<endl;
+    p=head;
+}
+
+//多项式加减
+void PollyAdd( LinkList& a, LinkList& b)
+{
+    a.print();
+    b.print();
+    LinkList c;
+    int coe;
+    int index;
+    while((a.p->next)!=nullptr&&(b.p->next)!=nullptr)
+    {
+         a.p=a.p->next;
+         b.p=b.p->next;
+         coe=a.p->coe+b.p->coe;
+         index=a.p->index+b.p->index;
+         if(coe!=0)
+         {
+             c.insert(coe,index);
+         }
+    }
+    cout<<"结果为：";
+    c.print();
+}
+
+
+
+
+#include<iostream>
+using namespace std;
+class LinkNode//结点类
+{
+    public:
+    int coe;
+    int index;
+    LinkNode *next;
+    LinkNode(int coe_,int index_)
+    {
+        coe=coe_;
+        index=index_;
+    }
+};
+
+class LinkList
+{
+    public:
+    LinkNode* head;
+    LinkNode* present;
+    LinkNode* p;
+    LinkList();//构造函数
+    void insert(int coe_,int index_);//插入下一项的系数与指数
+    void print();//打印多项式
+};
+
+//关键：多项式相加实现
+void PollyAdd( LinkList &a, LinkList &b);
+int main()
+{
+    LinkList a;
+    LinkList b;
+    int coe;
+    int index;
+    cout<<"请输入第一个多项式的各项系数与指数,停止请输入0 0"<<endl;
+    while(1)
+    {
+        cin>>coe;
+        cin>>index;
+        if(coe==index==0)
+        {
+            break;
+        }
+        else
+        {
+            a.insert(coe,index);
+        }
+    }
+    cout<<"请输入第二个多项式的各项系数与指数，停止请输入0 0"<<endl;
+    while(1)
+    {
+        cin>>coe;
+        cin>>index;
+        if(coe==index==0)
+        {
+            break;
+        }
+        else
+        {
+            b.insert(coe,index);
+        }
+    }
+    PollyAdd(a,b);
+}
